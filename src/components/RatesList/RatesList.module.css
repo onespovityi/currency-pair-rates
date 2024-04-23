@@ -1,0 +1,26 @@
+.wrapper {
+  margin: 20px 0px;
+  display: flex;
+  flex-direction: column;
+
+  tr {
+    height: 40px;
+  }
+
+  td {
+    border: 1px solid gray;
+    border-radius: 4px;
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+  }
+
+}
+
+.rates {
+  display: flex;
+  gap: 10px;
+}
+
+.highlighted {
+  background-color: yellow; 
+}
