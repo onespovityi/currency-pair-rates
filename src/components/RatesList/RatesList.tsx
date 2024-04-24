@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import cls from "./RatesList.module.css"
 import TableHead from "../TableHead/TableHead";
 import { GetValueFn, Header, RatesListProps, RatesObject } from "../../types/types";
