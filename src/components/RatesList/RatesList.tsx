@@ -3,7 +3,7 @@ import cls from "./RatesList.module.css"
 import TableHead from "../TableHead/TableHead";
 import { GetValueFn, Header, RatesListProps, RatesObject } from "../../types/types";
 
-const productHeaders: Header[] = [
+const ratesHeaders: Header[] = [
   { width: "20%", head: "Pair name/market" },
   { width: "20%", head: "First" },
   { width: "20%", head: "Second" },
@@ -35,7 +35,7 @@ const RatesList: React.FC<RatesListProps> = ({ firstRates, secondRates, thirdRat
   return (
     <>
       <div className={cls.wrapper}>
-        <TableHead headers={productHeaders}>
+        <TableHead headers={ratesHeaders}>
           {currencyPairs.map(({ name, getValue }) => {
             const isMinFirst = isMinValue(getValue, firstRates.rates)
             const isMinSecond = isMinValue(getValue, secondRates.rates)
