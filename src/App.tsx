@@ -22,14 +22,15 @@ function App() {
 
   const fetchInitialRates = async () => {
     try {
-      const firstData = await fetchInitialRatesData('first');
-      parseData(setFirstRates, firstData)
+      const [firstData, secondData, thirdData] = await Promise.all([
+        fetchInitialRatesData('first'),
+        fetchInitialRatesData('second'),
+        fetchInitialRatesData('third'),
+      ]);
 
-      const secondData = await fetchInitialRatesData('second');
-      parseData(setSecondRates, secondData)
-
-      const thirdData = await fetchInitialRatesData('third');
-      parseData(setThirdRates, thirdData)
+      parseData(setFirstRates, firstData);
+      parseData(setSecondRates, secondData);
+      parseData(setThirdRates, thirdData);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -37,24 +38,35 @@ function App() {
 
   const startLongPolling = async () => {
     try {
-      const firstData = await fetchRatesPolls('first');
-      parseData(setFirstRates, firstData)
+      const [firstData, secondData, thirdData] = await Promise.all([
+        fetchRatesPolls('first'),
+        fetchRatesPolls('second'),
+        fetchRatesPolls('third'),
+      ]);
 
-      const secondData = await fetchRatesPolls('second');
-      parseData(setSecondRates, secondData)
+      parseData(setFirstRates, firstData);
+      parseData(setSecondRates, secondData);
+      parseData(setThirdRates, thirdData);
 
-      const thirdData = await fetchRatesPolls('third');
-      parseData(setThirdRates, thirdData)
+      const timeout = setTimeout(startLongPolling, 1000);
+
+      const hasNewData = firstData.timestamp !== firstRates?.timestamp ||
+        secondData.timestamp !== secondRates?.timestamp ||
+        thirdData.timestamp !== thirdRates?.timestamp;
+
+      if (hasNewData) {
+        clearTimeout(timeout);
+        startLongPolling();
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
-    } finally {
-      startLongPolling()
+      setTimeout(startLongPolling, 5000);
     }
   };
 
   useEffect(() => {
-    fetchInitialRates();
-    startLongPolling();
+    fetchInitialRates()
+    startLongPolling()
   }, []);
 
   return (
