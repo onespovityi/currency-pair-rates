@@ -5,10 +5,29 @@ body {
 }
 
 .wrap {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   margin: 20px;
 }
 
 .title {
   text-align: center;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.button {
+  height: 50px;
+  border: 2px solid gray;
+  font-size: 18px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  border-radius: 4px;
+  color: white;
+  background-color: rgb(0, 127, 0);
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.button:hover {
+  background-color: rgba(0, 164, 0, 0.853);
 }
