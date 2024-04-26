@@ -9,6 +9,8 @@ function App() {
   const [firstRates, setFirstRates] = useState<RatesData | null>(null);
   const [secondRates, setSecondRates] = useState<RatesData | null>(null);
   const [thirdRates, setThirdRates] = useState<RatesData | null>(null);
+  const [longPolling, setLongPolling] = useState<boolean>(false);
+  const [timeoutId, setTimeoutId] = useState<null | number>(null);
 
   const parseData = (set: React.Dispatch<React.SetStateAction<RatesData | null>>, data: RatesData) => {
     set({
@@ -37,6 +39,11 @@ function App() {
   };
 
   const startLongPolling = async () => {
+    setLongPolling(true);
+
+    const newTimeoutId = setTimeout(startLongPolling, 5000);
+    setTimeoutId(newTimeoutId);
+
     try {
       const [firstData, secondData, thirdData] = await Promise.all([
         fetchRatesPolls('first'),
@@ -47,32 +54,33 @@ function App() {
       parseData(setFirstRates, firstData);
       parseData(setSecondRates, secondData);
       parseData(setThirdRates, thirdData);
-
-      const timeout = setTimeout(startLongPolling, 1000);
-
-      const hasNewData = firstData.timestamp !== firstRates?.timestamp ||
-        secondData.timestamp !== secondRates?.timestamp ||
-        thirdData.timestamp !== thirdRates?.timestamp;
-
-      if (hasNewData) {
-        clearTimeout(timeout);
-        startLongPolling();
-      }
     } catch (error) {
       console.error('Error fetching data:', error);
-      setTimeout(startLongPolling, 5000);
+    }
+  };
+
+  const stopLongPolling = () => {
+    setLongPolling(false);
+
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      setTimeoutId(null);
     }
   };
 
   useEffect(() => {
-    fetchInitialRates()
-    startLongPolling()
+    fetchInitialRates();
   }, []);
 
   return (
     <div className={cls.wrap}>
       <h1 className={cls.title}>Курс Валютных пар</h1>
       <RatesList firstRates={firstRates} secondRates={secondRates} thirdRates={thirdRates} />
+      {firstRates && secondRates && thirdRates &&
+        <button className={cls.button} onClick={() => (longPolling ? stopLongPolling() : startLongPolling())}>
+          {longPolling ? "stop long polling" : "start long polling"}
+        </button>
+      }
     </div>
   );
 }
