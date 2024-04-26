@@ -78,9 +78,9 @@ function App() {
       <h1 className={cls.title}>Курс Валютных пар</h1>
       <RatesList firstRates={firstRates} secondRates={secondRates} thirdRates={thirdRates} />
       {firstRates && secondRates && thirdRates &&
-        {longPolling && <button className={cls.button} onClick={() => (longPolling && stopLongPolling())}>
-          {longPolling && "stop long polling"}
-        </button>}
+        <button disabled={longPolling ? false : true} className={cls.button} onClick={() => (longPolling && stopLongPolling())}>
+          stop long polling
+        </button>
       }
     </div>
   );
