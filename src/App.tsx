@@ -70,6 +70,7 @@ function App() {
 
   useEffect(() => {
     fetchInitialRates();
+    startLongPolling();
   }, []);
 
   return (
@@ -77,9 +78,9 @@ function App() {
       <h1 className={cls.title}>Курс Валютных пар</h1>
       <RatesList firstRates={firstRates} secondRates={secondRates} thirdRates={thirdRates} />
       {firstRates && secondRates && thirdRates &&
-        <button className={cls.button} onClick={() => (longPolling ? stopLongPolling() : startLongPolling())}>
-          {longPolling ? "stop long polling" : "start long polling"}
-        </button>
+        {longPolling && <button className={cls.button} onClick={() => (longPolling && stopLongPolling())}>
+          {longPolling && "stop long polling"}
+        </button>}
       }
     </div>
   );
