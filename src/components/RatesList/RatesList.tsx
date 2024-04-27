@@ -1,4 +1,4 @@
-import cls from "./RatesList.module.css"
+import cls from "./RatesList.module.css";
 import TableHead from "../TableHead/TableHead";
 import { GetValueFn, Header, RatesListProps, RatesObject } from "../../types/types";
 
@@ -11,12 +11,12 @@ const ratesHeaders: Header[] = [
 
 const RatesList: React.FC<RatesListProps> = ({ firstRates, secondRates, thirdRates }) => {
 
-  if (firstRates === null || secondRates === null || thirdRates === null) return "Loading..."
+  if (firstRates === null || secondRates === null || thirdRates === null) return "Loading...";
 
   const currencyPairs: { name: string; getValue: GetValueFn }[] = [
-    { name: 'RUB/CUPCAKE', getValue: (rates: RatesObject) => rates.RUB },
-    { name: 'USD/CUPCAKE', getValue: (rates: RatesObject) => rates.USD },
-    { name: 'EUR/CUPCAKE', getValue: (rates: RatesObject) => rates.EUR },
+    { name: 'RUB/CUPCAKE', getValue: (rates: RatesObject) => Number((rates.RUB).toFixed(2)) },
+    { name: 'USD/CUPCAKE', getValue: (rates: RatesObject) => Number((rates.USD).toFixed(2)) },
+    { name: 'EUR/CUPCAKE', getValue: (rates: RatesObject) => Number((rates.EUR).toFixed(2)) },
     { name: 'RUB/USD', getValue: (rates: RatesObject) => Number((rates.RUB / rates.USD).toFixed(2)) },
     { name: 'RUB/EUR', getValue: (rates: RatesObject) => Number((rates.RUB / rates.EUR).toFixed(2)) },
     { name: 'EUR/USD', getValue: (rates: RatesObject) => Number((rates.EUR / rates.USD).toFixed(2)) }
@@ -36,9 +36,9 @@ const RatesList: React.FC<RatesListProps> = ({ firstRates, secondRates, thirdRat
       <div className={cls.wrapper}>
         <TableHead headers={ratesHeaders}>
           {currencyPairs.map(({ name, getValue }) => {
-            const isMinFirst = isMinValue(getValue, firstRates.rates)
-            const isMinSecond = isMinValue(getValue, secondRates.rates)
-            const isMinThird = isMinValue(getValue, thirdRates.rates)
+            const isMinFirst = isMinValue(getValue, firstRates.rates);
+            const isMinSecond = isMinValue(getValue, secondRates.rates);
+            const isMinThird = isMinValue(getValue, thirdRates.rates);
             return <tr key={name}>
               <td>{name}</td>
               <td className={isMinFirst ? cls.highlighted : ''}>
@@ -50,12 +50,12 @@ const RatesList: React.FC<RatesListProps> = ({ firstRates, secondRates, thirdRat
               <td className={isMinThird ? cls.highlighted : ''}>
                 {getValue(thirdRates.rates) || '-'}
               </td>
-            </tr>
+            </tr>;
           })}
         </TableHead>
       </div >
     </>
   );
-}
+};
 
 export default RatesList;
