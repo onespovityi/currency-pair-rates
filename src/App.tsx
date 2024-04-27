@@ -35,8 +35,8 @@ function App() {
       setFirstRates(firstData);
       setSecondRates(secondData);
       setThirdRates(thirdData);
-      await longPolling();
 
+      await longPolling();
     } catch (error) {
       console.error('Error fetching data:', error);
       setTimeout(() => {
